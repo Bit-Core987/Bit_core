@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit_Core - Psicología y Política</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0a0a0a;
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 50%, #1a1a1a 100%);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 200, 0, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section h1 {
+            font-size: 4em;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff0000, #ffc800, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .logo-section p {
+            font-size: 1.2em;
+            color: #ffc800;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 15px 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            border: 2px solid #ff0000;
+            color: #fff;
+            padding: 12px 28px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 200, 0, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border-color: #ffc800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border-color: #ffc800;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .disclaimer-banner {
+            background: linear-gradient(135deg, #2d0000, #1a1a1a);
+            border: 2px solid #ffc800;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 30px rgba(255, 200, 0, 0.2);
+        }
+
+        .disclaimer-banner h3 {
+            color: #ffc800;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .disclaimer-banner p {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .content-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 200, 0, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.4);
+            border-color: #ffc800;
+        }
+
+        .content-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-video {
+            width: 100%;
+            height: 220px;
+            background: #000;
+            position: relative;
+        }
+
+        .card-video iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2d0000, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #ff0000;
+        }
+
+        .card-content {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-category {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: #fff;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            border: 1px solid #ffc800;
+        }
+
+        .card-content h3 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1.5em;
+        }
+
+        .card-content p {
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #ffc800;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255, 0, 0, 0.3);
+            padding-top: 15px;
+            font-weight: 600;
+        }
+
+        .about-content {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.3);
+        }
+
+        .about-content h2 {
+            color: #ffc800;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .about-content h3 {
+            color: #ff0000;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid #ffc800;
+            padding-bottom: 10px;
+        }
+
+        .about-content p {
+            color: #ddd;
+            font-size: 1.1em;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .about-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .about-content li {
+            color: #ddd;
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .about-content li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #ffc800;
+            font-weight: bold;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            border-top: 2px solid #ff0000;
+            padding: 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: #ccc;
+            font-size: 1.1em;
+        }
+
+        .references-section {
+            background: linear-gradient(135deg, #1a1a1a, #2d0000);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .references-section h3 {
+            color: #ffc800;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .reference-item {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid #ff0000;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .reference-item strong {
+            color: #ffc800;
+        }
+
+        .reference-item p {
+            color: #ddd;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .logo-section h1 {
+                font-size: 2.5em;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-content {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #2d0000, #1a1a1a);
+            border: 2px solid #ffc800;
+            border-radius: 12px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(255, 200, 0, 0.2);
+        }
+
+        .hero-section h2 {
+            color: #ffc800;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            color: #ddd;
+            font-size: 1.3em;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>BIT_CORE</h1>
+                <p>Análisis · Psicología · Política</p>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <button class="nav-btn active" data-section="inicio">Inicio</button>
+            <button class="nav-btn" data-section="psicologia">Psicología</button>
+            <button class="nav-btn" data-section="politica">Política</button>
+            <button class="nav-btn" data-section="otros">Otros Temas</button>
+            <button class="nav-btn" data-section="blog">Artículos</button>
+            <button class="nav-btn" data-section="referencias">Referencias</button>
+            <button class="nav-btn" data-section="sobre">Sobre Bit_Core</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="disclaimer-banner">
+            <h3>⚠️ Aviso Importante</h3>
+            <p><strong>Psicología:</strong> El contenido de psicología está basado en manuales profesionales y fuentes académicas, pero NO sustituye la consulta con un profesional de la salud mental. Si necesitas ayuda psicológica, busca un psicólogo o psiquiatra certificado.</p>
+            <p><strong>Política:</strong> Los análisis políticos son de naturaleza subjetiva con intención neutral. Busco analizar eventos y sistemas sin favorecer bandos específicos, pero todo análisis contiene interpretación personal.</p>
+            <p><strong>General:</strong> Este contenido es educativo e informativo. Investiga por tu cuenta y forma tus propias conclusiones.</p>
+        </div>
+
+        <!-- SECCIÓN INICIO -->
+        <section id="inicio" class="section active">
+            <div class="hero-section">
+                <h2>Bienvenido a Bit_Core</h2>
+                <p>Un espacio para el análisis crítico y reflexivo sobre psicología y política. Aquí encontrarás videos, artículos y contenido basado en investigación seria, presentado de manera accesible y honesta.</p>
+            </div>
+
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">📺 Contenido Destacado</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Psicología</span>
+                        <h3>Introducción a los Sesgos Cognitivos</h3>
+                        <p>Exploramos cómo nuestro cerebro nos engaña constantemente y por qué es importante reconocer estos patrones de pensamiento.</p>
+                        <div class="card-meta">
+                            <span>📅 28 Oct 2025</span>
+                            <span>⏱️ 15:32</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Política</span>
+                        <h3>Sistemas Electorales: Análisis Comparativo</h3>
+                        <p>Un análisis objetivo de diferentes sistemas electorales en el mundo, sus ventajas y desventajas sin tomar partido.</p>
+                        <div class="card-meta">
+                            <span>📅 25 Oct 2025</span>
+                            <span>⏱️ 22:45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Psicología</span>
+                        <h3>El Efecto Dunning-Kruger</h3>
+                        <p>Por qué las personas menos competentes tienden a sobreestimar sus habilidades. Basado en estudios científicos.</p>
+                        <div class="card-meta">
+                            <span>📅 20 Oct 2025</span>
+                            <span>⏱️ 18:20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PSICOLOGÍA -->
+        <section id="psicologia" class="section">
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">🧠 Psicología</h2>
+            <div class="disclaimer-banner" style="background: linear-gradient(135deg, #1a1a1a, #2d0000);">
+                <h3>📚 Sobre el Contenido de Psicología</h3>
+                <p>Todo el contenido está basado en manuales profesionales (DSM-5, CIE-11), estudios revisados por pares y literatura académica. Sin embargo, recuerda que <strong>NO soy profesional de la salud mental</strong> y este contenido es solo educativo.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Psicología Cognitiva</span>
+                        <h3>Sesgos Cognitivos en la Vida Diaria</h3>
+                        <p>Análisis profundo de cómo los sesgos cognitivos afectan nuestras decisiones, basado en investigación de Kahneman y Tversky.</p>
+                        <div class="card-meta">
+                            <span>📅 28 Oct 2025</span>
+                            <span>⏱️ 15:32</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Psicología Social</span>
+                        <h3>Experimento de Milgram: Obediencia a la Autoridad</h3>
+                        <p>Revisión crítica del famoso experimento sobre obediencia y sus implicaciones éticas y sociales.</p>
+                        <div class="card-meta">
+                            <span>📅 22 Oct 2025</span>
+                            <span>⏱️ 20:15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Psicología Clínica</span>
+                        <h3>Trastornos de Ansiedad: Conceptos Básicos</h3>
+                        <p>Explicación educativa sobre los diferentes tipos de trastornos de ansiedad según el DSM-5.</p>
+                        <div class="card-meta">
+                            <span>📅 15 Oct 2025</span>
+                            <span>⏱️ 25:40</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN POLÍTICA -->
+        <section id="politica" class="section">
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">🗳️ Política</h2>
+            <div class="disclaimer-banner" style="background: linear-gradient(135deg, #1a1a1a, #2d0000);">
+                <h3>⚖️ Sobre el Contenido Político</h3>
+                <p>Los análisis políticos buscan ser lo más neutrales posible, presentando múltiples perspectivas. Mi objetivo es analizar sistemas, ideas y eventos sin favorecer ideologías específicas, aunque reconozco que toda interpretación contiene subjetividad.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Sistemas Políticos</span>
+                        <h3>Democracia vs República: Diferencias Clave</h3>
+                        <p>Análisis objetivo de las diferencias fundamentales entre democracia directa, representativa y sistemas republicanos.</p>
+                        <div class="card-meta">
+                            <span>📅 25 Oct 2025</span>
+                            <span>⏱️ 22:45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Economía Política</span>
+                        <h3>Capitalismo y Socialismo: Análisis Comparativo</h3>
+                        <p>Comparación neutral de diferentes sistemas económicos, sus implementaciones históricas y resultados documentados.</p>
+                        <div class="card-meta">
+                            <span>📅 18 Oct 2025</span>
+                            <span>⏱️ 28:30</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Análisis Electoral</span>
+                        <h3>Sistemas Electorales en América Latina</h3>
+                        <p>Revisión técnica de diferentes sistemas electorales implementados en la región y sus efectos en la representación.</p>
+                        <div class="card-meta">
+                            <span>📅 10 Oct 2025</span>
+                            <span>⏱️ 19:50</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN OTROS TEMAS -->
+        <section id="otros" class="section">
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">🌐 Otros Temas</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Filosofía</span>
+                        <h3>Introducción a la Ética Aplicada</h3>
+                        <p>Exploramos dilemas éticos contemporáneos desde diferentes corrientes filosóficas.</p>
+                        <div class="card-meta">
+                            <span>📅 12 Oct 2025</span>
+                            <span>⏱️ 16:25</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-video">
+                        <div class="video-placeholder">🎬</div>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">Tecnología</span>
+                        <h3>Inteligencia Artificial y Sociedad</h3>
+                        <p>Análisis del impacto social de la IA y las preguntas éticas que plantea su desarrollo.</p>
+                        <div class="card-meta">
+                            <span>📅 5 Oct 2025</span>
+                            <span>⏱️ 21:10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN BLOG/ARTÍCULOS -->
+        <section id="blog" class="section">
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">📝 Artículos Escritos</h2>
+            <p style="color: #ddd; margin-bottom: 30px; font-size: 1.1em;">Contenido más profundo que complementa los videos. Aquí encontrarás análisis extendidos, referencias adicionales y material que no cabe en formato de video.</p>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-content">
+                        <span class="card-category">Artículo - Psicología</span>
+                        <h3>La Falacia del Mundo Justo</h3>
+                        <p>Análisis profundo de este sesgo cognitivo que nos hace creer que el mundo es inherentemente justo, con implicaciones sociales y personales. Incluye referencias a estudios y ejemplos contemporáneos.</p>
+                        <div class="card-meta">
+                            <span>📅 27 Oct 2025</span>
+                            <span>📖 8 min lectura</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-content">
+                        <span class="card-category">Artículo - Política</span>
+                        <h3>Polarización Política en Redes Sociales</h3>
+                        <p>Cómo los algoritmos de redes sociales contribuyen a la polarización política. Análisis basado en estudios sobre cámaras de eco y burbujas informativas.</p>
+                        <div class="card-meta">
+                            <span>📅 23 Oct 2025</span>
+                            <span>📖 12 min lectura</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-content">
+                        <span class="card-category">Artículo - General</span>
+                        <h3>Pensamiento Crítico en la Era Digital</h3>
+                        <p>Herramientas y metodologías para desarrollar pensamiento crítico frente a la sobrecarga de información actual.</p>
+                        <div class="card-meta">
+                            <span>📅 19 Oct 2025</span>
+                            <span>📖 10 min lectura</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN REFERENCIAS -->
+        <section id="referencias" class="section">
+            <h2 style="color: #ffc800; margin-bottom: 20px; font-size: 2em;">📚 Fuentes y Referencias</h2>
+            <p style="color: #ddd; margin-bottom: 30px; font-size: 1.1em;">La credibilidad es fundamental. Aquí listo las principales fuentes que utilizo para crear contenido.</p>
+
+            <div class="references-section">
+                <h3>Psicología</h3>
+                <div class="reference-item">
+                    <strong>DSM-5 (Manual Diagnóstico y Estadístico de los Trastornos Mentales)</strong>
+                    <p>American Psychiatric Association. Principal referencia para trastornos mentales.</p>
+                </div>
+                <div class="reference-item">
+                    <strong>Thinking, Fast and Slow</strong>
+                    <p>Daniel Kahneman. Obra fundamental sobre sesgos cognitivos y toma de decisiones.</p>
+                </div>
+                <div class="reference-item">
+                    <strong>The Social Animal</strong>
+                    <p>Elliot Aronson. Texto clásico de psicología social.</p>
+                </div>
+            </div>
+
+            <div class="references-section">
+                <h3>Política y Sistemas</h3>
+                <div class="reference-item">
+                    <strong>The Prince</strong>
+                    <p>Niccolò Machiavelli. Análisis clásico sobre poder político.</p>
+                </div>
+                <div class="reference-item">
+                    <strong>Democracy in America</strong>
+                    <p>Alexis de Tocqueville. Análisis fundamental de sistemas democráticos.</p>
+                </div>
+                <div class="reference-item">
+                    <strong>Bases de datos académicas</strong>
+                    <p>JSTOR, Google Scholar, y publicaciones de instituciones como Pew Research Center.</p>
+                </div>
+            </div>
+
+            <div class="references-section">
+                <h3>Metodología</h3>
+                <div class="reference-item">
+                    <strong>Verificación de Fuentes</strong>
+                    <p>Priorizo estudios revisados por pares, fuentes académicas reconocidas y datos de instituciones respetadas.</p>
+                </div>
+                <div class="reference-item">
+                    <strong>Transparencia</strong>
+                    <p>Cada video y artículo incluye las fuentes específicas consultadas para ese contenido.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SOBRE BIT_CORE -->
+        <section id="sobre" class="section">
+            <div class="about-content">
+                <h2>Sobre Bit_Core</h2>
+                
+                <h3>🎯 La Misión</h3>
+                <p>Bit_Core nace de la necesidad de crear contenido analítico y reflexivo sobre temas complejos, presentado de manera accesible pero sin sacrificar rigor. Mi objetivo es fomentar el pensamiento crítico y ofrecer perspectivas basadas en evidencia.</p>
+
+                <h3>📖 Metodología</h3>
+                <p>Todo el contenido sigue estos principios:</p>
+                <ul>
+                    <li><strong>Basado en fuentes confiables:</strong> Manuales profesionales, estudios académicos y literatura revisada por pares.</li>
+                    <li><strong>Transparencia total:</strong> Siempre cito mis fuentes y reconozco las limitaciones de la información.</li>
+                    <li><strong>Neutralidad en política:</strong> Busco presentar múltiples perspectivas sin favorecer bandos específicos.</li>
+                    <li><strong>Responsabilidad:</strong> Reconozco que NO soy profesional en estos campos y el contenido es educativo, no profesional.</li>
+                    <li><strong>Actualización constante:</strong> Corrijo errores cuando los encuentro y actualizo información cuando es necesario.</li>
+                </ul>
+
+                <h3>🧠 Contenido de Psicología</h3>
+                <p>Los temas de psicología están basados en:</p>
+                <ul>
+                    <li>DSM-5 y CIE-11 para trastornos mentales</li>
+                    <li>Estudios de psicología cognitiva, social y clínica</li>
+                    <li>Investigación sobre sesgos cognitivos y toma de decisiones</li>
+                    <li>Literatura académica reconocida en el campo</li>
+                </ul>
+                <p><strong>Importante:</strong> Este contenido NO sustituye ayuda profesional. Si necesitas apoyo psicológico, consulta con un profesional certificado.</p>
+
+                <h3>⚖️ Contenido Político</h3>
+                <p>El análisis político busca ser:</p>
+                <ul>
+                    <li><strong>Objetivo:</strong> Presentar hechos verificables y múltiples interpretaciones</li>
+                    <li><strong>Neutral:</strong> No favorecer ideologías específicas</li>
+                    <li><strong>Educativo:</strong> Explicar sistemas, conceptos y contextos históricos</li>
+                    <li><strong>Crítico:</strong> Analizar fortalezas y debilidades de diferentes enfoques</li>
+                </ul>
+                <p>Reconozco que la neutralidad absoluta es imposible, pero me esfuerzo por presentar argumentos de diferentes perspectivas de manera justa.</p>
+
+                <h3>🌐 Otros Temas</h3>
+                <p>Ocasionalmente exploro otros temas como filosofía, tecnología, ética y sociedad, siempre manteniendo los mismos estándares de investigación y presentación.</p>
+
+                <h3>💬 Comunidad y Feedback</h3>
+                <p>Valoro el diálogo constructivo y la crítica fundamentada. Si encuentras errores, desacuerdos o tienes sugerencias, te invito a comentar de manera respetuosa. El conocimiento se construye colectivamente.</p>
+
+                <h3>📧 Contacto</h3>
+                <p>Para sugerencias de temas, colaboraciones o correcciones, puedes encontrarme en:</p>
+                <ul>
+                    <li>YouTube: [Tu canal de YouTube]</li>
+                    <li>Email: [Tu email]</li>
+                    <li>Redes sociales: [Tus redes]</li>
+                </ul>
+
+                <h3>🔮 El Futuro</h3>
+                <p>Bit_Core es un proyecto en constante evolución. Planeo expandir el contenido, mejorar la calidad de producción y explorar formatos que faciliten el aprendizaje y la reflexión crítica.</p>
+
+                <p style="text-align: center; margin-top: 40px; color: #ffc800; font-size: 1.2em; font-weight: bold;">Gracias por ser parte de esta comunidad de pensamiento crítico.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Bit_Core. Todos los derechos reservados.</p>
+        <p style="margin-top: 10px; color: #ffc800;">Hecho con análisis crítico y pasión por el conocimiento 🔥</p>
+    </footer>
+
+    <script>
+        // Sistema de navegación
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remover clase active de todos los botones
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Agregar clase active al botón clickeado
+                button.classList.add('active');
+                
+                // Ocultar todas las secciones
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Mostrar la sección correspondiente
+                const sectionId = button.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Scroll suave al inicio
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Click en tarjetas (placeholder para funcionalidad futura)
+        const contentCards = document.querySelectorAll('.content-card');
+        contentCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Aquí puedes agregar funcionalidad para abrir videos o artículos
+                console.log('Card clicked - Aquí puedes agregar tu funcionalidad');
+            });
+        });
+
+        // Efecto parallax sutil en header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header-banner');
+            if (header) {
+                header.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
